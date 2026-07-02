@@ -50,7 +50,7 @@ toconomics/
 - Create: `package.json`, `tsconfig.json`, `next.config.ts`, `src/app/*` (create-next-app 산출물)
 - Create: `vitest.config.ts`
 
-- [ ] **Step 1: create-next-app으로 현재 디렉터리에 스캐폴딩**
+- [x] **Step 1: create-next-app으로 현재 디렉터리에 스캐폴딩**
 
 주의: 현재 디렉터리에 `docs/` 폴더가 이미 있어 create-next-app이 비어있지 않다고 거부할 수 있다. 그 경우 임시 폴더에 생성 후 내용물을 이동한다.
 
@@ -64,12 +64,12 @@ Remove-Item -Recurse -Force scaffold
 
 Expected: `package.json`, `src/app/page.tsx`, `src/app/globals.css` 등이 워크스페이스 루트에 생성됨. `git status`에 새 파일들이 보임 (git repo가 없다면 `git init` 먼저 실행).
 
-- [ ] **Step 2: vitest 설치**
+- [x] **Step 2: vitest 설치**
 
 Run: `npm install -D vitest`
 Expected: `package.json` devDependencies에 vitest 추가됨
 
-- [ ] **Step 3: vitest 설정 파일 작성**
+- [x] **Step 3: vitest 설정 파일 작성**
 
 Create `vitest.config.ts`:
 
@@ -83,7 +83,7 @@ export default defineConfig({
 });
 ```
 
-- [ ] **Step 4: package.json에 test 스크립트 추가**
+- [x] **Step 4: package.json에 test 스크립트 추가**
 
 `package.json`의 `scripts`에 다음 항목 추가:
 
@@ -91,7 +91,7 @@ export default defineConfig({
 "test": "vitest run"
 ```
 
-- [ ] **Step 5: 검증 인프라 동작 확인**
+- [x] **Step 5: 검증 인프라 동작 확인**
 
 Run: `npm run test`
 Expected: "No test files found" 류의 메시지와 함께 실패 또는 통과 — vitest가 실행된다는 사실만 확인 (테스트는 Task 2에서 추가)
@@ -99,7 +99,7 @@ Expected: "No test files found" 류의 메시지와 함께 실패 또는 통과 
 Run: `npm run build`
 Expected: 스캐폴드 기본 페이지가 에러 없이 빌드됨
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```powershell
 git add -A
@@ -117,7 +117,7 @@ git commit -m "chore: scaffold Next.js app with vitest verification setup"
 - Create: `src/lib/pricing.ts`
 - Test: `tests/pricing.test.ts`
 
-- [ ] **Step 1: 실패하는 테스트 작성**
+- [x] **Step 1: 실패하는 테스트 작성**
 
 Create `tests/pricing.test.ts`:
 
@@ -198,12 +198,12 @@ describe("mergePricing", () => {
 });
 ```
 
-- [ ] **Step 2: 테스트가 실패하는지 확인**
+- [x] **Step 2: 테스트가 실패하는지 확인**
 
 Run: `npm run test`
 Expected: FAIL — `src/lib/pricing` 모듈이 없어서 import 에러
 
-- [ ] **Step 3: 큐레이션 모델 목록 작성**
+- [x] **Step 3: 큐레이션 모델 목록 작성**
 
 Create `src/lib/models.ts`:
 
@@ -263,7 +263,7 @@ export const CURATED_MODELS: CuratedModel[] = [
 ];
 ```
 
-- [ ] **Step 4: 실제 OpenRouter 모델 ID 확인 및 보정**
+- [x] **Step 4: 실제 OpenRouter 모델 ID 확인 및 보정**
 
 위 배열의 `id` 값은 후보 추정치다. 라이브 API에서 실제 ID를 확인하고 다르면 `models.ts`의 `id`를 수정한다 (name/vendor/fallbackUsd는 유지).
 
@@ -275,7 +275,7 @@ node -e "fetch('https://openrouter.ai/api/v1/models').then(r=>r.json()).then(d=>
 
 Expected: 매칭되는 모델 ID 목록 출력. 각 큐레이션 모델에 대해 가장 가까운 실제 ID로 교체. API에 존재하지 않는 모델(예: Fable 5가 OpenRouter에 없는 경우)은 ID를 그대로 두면 fallback 가격으로 표시되므로 문제 없음.
 
-- [ ] **Step 5: 가격 모듈 구현**
+- [x] **Step 5: 가격 모듈 구현**
 
 Create `src/lib/pricing.ts`:
 
@@ -358,7 +358,7 @@ export async function getModelPrices(): Promise<ModelPrice[]> {
 }
 ```
 
-- [ ] **Step 6: 환율 모듈 구현**
+- [x] **Step 6: 환율 모듈 구현**
 
 Create `src/lib/fx.ts`:
 
@@ -385,12 +385,12 @@ export async function getUsdKrwRate(): Promise<FxRate> {
 }
 ```
 
-- [ ] **Step 7: 테스트 통과 확인**
+- [x] **Step 7: 테스트 통과 확인**
 
 Run: `npm run test`
 Expected: PASS — 전체 테스트 통과
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```powershell
 git add src/lib tests
@@ -408,7 +408,7 @@ git commit -m "feat: add pricing and fx data layer with curated SOTA model list"
 
 디자인 방향: 레퍼런스 2번 이미지 — 오프화이트 신문지 바탕, 블랙 잉크 모노크롬, 강렬한 레드 액센트, 증시 차트/뉴스페이퍼 콜라주 무드. 세리프 헤드라인 + 모노스페이스 숫자.
 
-- [ ] **Step 1: globals.css를 디자인 토큰 체계로 교체**
+- [x] **Step 1: globals.css를 디자인 토큰 체계로 교체**
 
 Replace `src/app/globals.css` 전체 내용:
 
@@ -438,7 +438,7 @@ body {
 }
 ```
 
-- [ ] **Step 2: layout.tsx를 폰트/메타데이터 포함 버전으로 교체**
+- [x] **Step 2: layout.tsx를 폰트/메타데이터 포함 버전으로 교체**
 
 Replace `src/app/layout.tsx` 전체 내용:
 
@@ -485,12 +485,12 @@ export default function RootLayout({
 }
 ```
 
-- [ ] **Step 3: 빌드 확인**
+- [x] **Step 3: 빌드 확인**
 
 Run: `npm run build`
 Expected: 에러 없이 빌드 (page.tsx는 아직 스캐폴드 기본 상태여도 무방)
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```powershell
 git add src/app/globals.css src/app/layout.tsx
@@ -506,7 +506,7 @@ git commit -m "feat: add newspaper-style design tokens and Korean typography"
 - Create: `src/components/PriceTable.tsx`
 - Modify: `src/app/page.tsx` (전체 교체)
 
-- [ ] **Step 1: PriceTable 컴포넌트 작성**
+- [x] **Step 1: PriceTable 컴포넌트 작성**
 
 Create `src/components/PriceTable.tsx`:
 
@@ -582,7 +582,7 @@ export function PriceTable({
 }
 ```
 
-- [ ] **Step 2: page.tsx를 메인 화면으로 교체**
+- [x] **Step 2: page.tsx를 메인 화면으로 교체**
 
 Replace `src/app/page.tsx` 전체 내용:
 
@@ -646,7 +646,7 @@ export default async function Home() {
 }
 ```
 
-- [ ] **Step 3: 로컬 렌더링 확인**
+- [x] **Step 3: 로컬 렌더링 확인**
 
 Run: `npm run dev` (백그라운드 실행 후 브라우저 또는 curl로 확인)
 
@@ -656,7 +656,7 @@ curl.exe -s http://localhost:3000 | Select-String "toconomics"
 
 Expected: HTML에 "toconomics" 헤드라인, 모델명들, ₩ 가격이 포함됨. 확인 후 dev 서버 종료.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```powershell
 git add src/components src/app/page.tsx
@@ -670,27 +670,27 @@ git commit -m "feat: add KRW price comparison table page"
 **Dependencies:** All preceding tasks
 **Files:** None (read-only verification)
 
-- [ ] **Step 1: Run highest-level verification**
+- [x] **Step 1: Run highest-level verification**
 
 Run: `npm run test && npm run build`
 Expected: ALL PASS — 테스트 전체 통과 + 프로덕션 빌드 성공
 
-- [ ] **Step 2: Verify plan success criteria**
+- [x] **Step 2: Verify plan success criteria**
 
 `npm run start`로 프로덕션 서버를 띄우고 http://localhost:3000 에서 수동 확인:
 
-- [ ] 큐레이션된 SOTA 모델들의 입력/출력 가격이 원화(+USD 병기)로 테이블에 표시된다
-- [ ] 상단에 오늘의 환율($1 = ₩X,XXX)과 환율 갱신 시각이 표시된다
-- [ ] OpenRouter에 없는 모델은 "※ 고시가" 표기와 함께 fallback 가격으로 표시된다
-- [ ] 디자인이 오프화이트 바탕 + 블랙 잉크 + 레드 액센트 토큰으로 렌더링된다
-- [ ] 푸터에 Exchange Rate API 출처 표기(링크)가 있다
+- [x] 큐레이션된 SOTA 모델들의 입력/출력 가격이 원화(+USD 병기)로 테이블에 표시된다
+- [x] 상단에 오늘의 환율($1 = ₩X,XXX)과 환율 갱신 시각이 표시된다
+- [x] OpenRouter에 없는 모델은 "※ 고시가" 표기와 함께 fallback 가격으로 표시된다 (검증 시점에는 7개 모델 전부 OpenRouter API에 존재해 fallback 표기 없음 — 병합 로직은 vitest로 검증됨)
+- [x] 디자인이 오프화이트 바탕 + 블랙 잉크 + 레드 액센트 토큰으로 렌더링된다
+- [x] 푸터에 Exchange Rate API 출처 표기(링크)가 있다
 
-- [ ] **Step 3: Run full test suite for regressions**
+- [x] **Step 3: Run full test suite for regressions**
 
 Run: `npm run test`
 Expected: No regressions — 전체 통과
 
-- [ ] **Step 4: Final commit (필요 시)**
+- [x] **Step 4: Final commit (필요 시)** — 검증 중 소스 수정 없음, docs 체크박스만 정리 커밋
 
 검증 중 수정 사항이 있었다면:
 
