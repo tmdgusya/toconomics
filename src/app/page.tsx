@@ -1,65 +1,57 @@
-import Image from "next/image";
+import { PriceTable } from "@/components/PriceTable";
+import { getUsdKrwRate } from "@/lib/fx";
+import { getModelPrices } from "@/lib/pricing";
 
-export default function Home() {
+export const revalidate = 3600;
+
+const krwFmt = new Intl.NumberFormat("ko-KR", { maximumFractionDigits: 2 });
+
+export default async function Home() {
+  const [prices, fx] = await Promise.all([getModelPrices(), getUsdKrwRate()]);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="mx-auto max-w-4xl px-6 py-14">
+      <header className="mb-10">
+        <p className="mb-2 text-xs uppercase tracking-[0.3em] text-accent">
+          Token Economics Daily
+        </p>
+        <h1 className="font-[family-name:var(--font-display)] text-5xl font-black tracking-tight">
+          toconomics
+        </h1>
+        <p className="mt-3 text-sm text-ink-soft">
+          SOTA LLM 토큰 가격을 오늘의 원/달러 환율로 환산해 비교합니다.
+        </p>
+        <div className="mt-6 flex items-baseline gap-3 border-y-2 border-ink py-3">
+          <span className="text-xs uppercase tracking-widest text-ink-soft">
+            오늘의 환율
+          </span>
+          <span className="font-[family-name:var(--font-numeric)] text-2xl font-semibold text-accent">
+            $1 = ₩{krwFmt.format(fx.krwPerUsd)}
+          </span>
+          <span className="ml-auto text-xs text-ink-soft">
+            갱신: {fx.lastUpdatedUtc}
+          </span>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
+      </header>
+
+      <PriceTable prices={prices} fx={fx} />
+
+      <footer className="mt-10 space-y-1 text-xs text-ink-soft">
+        <p>
+          가격 출처: OpenRouter Models API (경유가 기준, ※ 표시는 공식 고시가) ·
+          1M 토큰당 가격
+        </p>
+        <p>
+          환율 출처:{" "}
           <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="https://www.exchangerate-api.com"
+            className="underline decoration-accent underline-offset-2"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+            Rates by Exchange Rate API
+          </a>{" "}
+          (일 1회 갱신)
+        </p>
+      </footer>
+    </main>
   );
 }
